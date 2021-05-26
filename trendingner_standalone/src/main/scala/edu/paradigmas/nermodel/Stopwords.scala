@@ -5,7 +5,7 @@ package edu.paradigmas.nermodel
  */
 object STOPWORDS {
   val words = Seq (
-    "i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you",
+    "i", "i’m", "i’ve", "me", "my", "myself", "we", "our", "ours", "ourselves", "you",
     "yours", "yourself", "yourselves", "he", "him", "his", "himself", "she",
     "her", "hers", "herself", "it", "its", "itself", "they", "them", "your",
     "their", "theirs", "themselves", "what", "which", "who", "whom",

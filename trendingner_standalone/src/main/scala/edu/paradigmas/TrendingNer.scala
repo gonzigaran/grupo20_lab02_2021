@@ -6,6 +6,8 @@ import org.json4s.jackson.JsonMethods._
 import scala.io._
 
 import nermodel.{NERSimpleModel, NERCount}
+import service.FeedService
+import parser.{Parser, RSSParser, RedditParser}
 
 case class Subscription(url: String, urlParams: List[String], urlType:String)
 
@@ -37,26 +39,19 @@ object TrendingNer extends App {
   }
 
   val subscriptions = readSubscriptions()
-  // Complete here!
-  val feedTexts = Seq(
-    """Object-oriented programming (OOP) is a programming paradigm based on the
-    concept of "objects", which can contain data and code: data in the form of
-    fields (often known as attributes or properties), and code, in the form of
-    procedures (often known as methods).""",
-    """A feature of objects is that an object's own procedures can access and
-    modify the data fields of itself (objects have a notion of this or self).
-    In OOP, computer programs are designed by making them out of objects that
-    interact with one another. [1][2] OOP languages are diverse, but the most
-    popular ones are class-based, meaning that objects are instances of classes,
-    which also determine their types.""",
-    """Many of the most widely used programming languages (such as C++, Java,
-    Python, etc.) are multi-paradigm and they support object-oriented
-    programming to a greater or lesser degree, typically in combination with
-    imperative, procedural programming. Significant object-oriented languages
-    include: (list order based on TIOBE index) Java, C++, C#, Python, R, PHP,
-    Visual Basic.NET, JavaScript, Ruby, Perl, Object Pascal, Objective-C,
-    Dart, Swift, Scala, Kotlin, Common Lisp, MATLAB, and Smalltalk."""
-  )
+  
+  val service = new FeedService()
+  subscriptions.foreach {
+      subs => {
+        val parser = subs.urlType match {
+          case "rss" => new RSSParser()
+          case "reddit" => new RedditParser()
+        }
+        service.subscribe(subs.url, subs.urlParams, parser)
+      }
+  }
+
+  val feedTexts = service.getText()
 
   val ners: Seq[NERCount] = countNes(feedTexts)
   println("Top 20 trending entities")
