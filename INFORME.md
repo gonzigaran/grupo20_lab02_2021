@@ -58,3 +58,8 @@ En caso de que al método `subscribe` le pasásemos una parámetro del tipo *Str
 
 Dos desiciones que nos parece importante mencionar son las siguientes. En primer lugar, para tener una mejor modularización de nuestro código, declaramos nuestra clase `Parser` y quienes heredan de esta en un documento y en otro la clase `FeedService`. A su vez, cada uno de estos lo ubicamos dentro de carpetas diferentes como, desde la cátedra, se hizo con el módulo `nermodel`. Sumando así los módulos `service` y `parser`.
 En segundo lugar, agregamos una serie de pálabras a `stopwords` que no estaban incluídas originalmente. Estas fueron contracciones del tipo *I've* o *I'm*.
+
+
+## **Punto estrella:** Mejor modelo
+
+Para realizar esta mejora, se creo un nuevo modelo dentro del módulo `nermodel` que se nombró `NERNormalizedModel`, que está basado en el modelo anterior (`NERSimpleModel`), pero modificandole la manera de contar las entidades, para incorporar la cuenta total de entidades para cada artículo, y así poder ir normalizando por articulo las entidades. Luego se suman todas estás normas para poder ordenarlas de acuerdo a este valor. Claramente toda la responsabilidad de realizar esta mejora está en el modelo, y la decisión de crear un modelo nuevo es para no modificar lo ya realizado, solo se modifica el `case class NERCount`, agregandole un atributo con un valor por defecto para no tener que modificar en nada el modelo anterior. El main solo se modifica lo mínimo para que tome el nuevo modelo e imprima los nuevos valores generados. 
