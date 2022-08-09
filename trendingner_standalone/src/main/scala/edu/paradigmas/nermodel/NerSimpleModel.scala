@@ -1,6 +1,6 @@
 package edu.paradigmas.nermodel
 
-case class NERCount(ner: String, count:Int)
+case class NERCount(ner: String, count: Int, normalizedCount: Float = 0)
 
 /* Abstraction of a NERModel (Named Entity Recognition Pipeline)
  * Receives a sequence of text.
