@@ -5,7 +5,7 @@ import org.json4s._
 import org.json4s.jackson.JsonMethods._
 import scala.io._
 
-import nermodel.{NERSimpleModel, NERCount}
+import nermodel.{NERSimpleModel, NERNormalizedModel, NERCount}
 import service.FeedService
 import parser.{Parser, RSSParser, RedditParser}
 
@@ -33,7 +33,7 @@ object TrendingNer extends App {
 
   def countNes(feedTexts: Seq[String]): Seq[NERCount] = {
     println("Obtaining NERs:")
-    val nerModel = new NERSimpleModel
+    val nerModel = new NERNormalizedModel
 
     nerModel.getSortedNEs(feedTexts)
   }
@@ -56,5 +56,5 @@ object TrendingNer extends App {
   val ners: Seq[NERCount] = countNes(feedTexts)
   println("Top 20 trending entities")
   ners.take(20).foreach { ner: NERCount =>
-    println(ner.ner, ner.count.toString) }
+    println(ner.ner, ner.count.toString, ner.normalizedCount.toString) }
 }
